@@ -32,7 +32,13 @@ def update_sign_from_files(filedir, loop_seconds):
         start_count = interesting_ones.get('BSH.Common.Status.Program.All.Count.Started')
         activity = interesting_ones.get('BSH.Common.Status.OperationState') + "/" + interesting_ones.get('Dishcare.Dishwasher.Status.ProgramPhase')
 
-        next_time = datetime.today() + timedelta(seconds=int(interesting_ones.get('BSH.Common.Option.RemainingProgramTime')))
+        next_time = datetime.today() + timedelta(
+            seconds=int(interesting_ones.get('BSH.Common.Option.RemainingProgramTime')))
+
+        if interesting_ones.get('BSH.Common.Status.OperationState') == 'Ready':
+            activity = 'Lurking'
+            next_time = datetime.today()
+            interesting_ones['Dishcare.Dishwasher.Status.ProgramPhase'] = ''
 
         pct = ""
 
