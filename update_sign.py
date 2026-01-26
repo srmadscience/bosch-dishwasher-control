@@ -43,6 +43,8 @@ def update_sign_from_files(filedir, loop_seconds):
             activity = 'Waiting'
             next_time = datetime.today()
             interesting_ones['Dishcare.Dishwasher.Status.ProgramPhase'] = ''
+
+
         pct = ""
 
         if int(interesting_ones.get('BSH.Common.Option.StartInRelative')) > 0:
@@ -53,10 +55,10 @@ def update_sign_from_files(filedir, loop_seconds):
             next_time = datetime.today() + timedelta(
                 seconds=int(interesting_ones.get('BSH.Common.Option.RemainingProgramTime')))
             washer_mode = "End  " + next_time.strftime("%H:%M")
-
         else:
+            washer_mode = interesting_ones.get('BSH.Common.Status.OperationState')
             next_time = datetime.today()
-            washer_mode = "Lurk  "
+
 
         print(washer_mode)
         print(activity)
