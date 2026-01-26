@@ -16,11 +16,10 @@ def update_sign_from_files(filedir, loop_seconds):
                         'BSH.Common.Option.StartInRelative':0,
                         'deviceID':0}
 
+   old_washer_mode = ''
+   old_activity = ''
+   old_cycle_message = ''
 
-   current_state = 'Unknown'
-   start_count = 0
-   percent_done = 0
-   next_time = 0
    while True:
         for key in interesting_ones:
             with open(filedir + '/BSH_' + "_" + key + '.dat', 'r', encoding="utf-8") as file:
@@ -59,15 +58,22 @@ def update_sign_from_files(filedir, loop_seconds):
             washer_mode = interesting_ones.get('BSH.Common.Status.OperationState')
             next_time = datetime.today()
 
-
-        print(washer_mode)
-        print(activity)
-        if int(percent_done) >0 :
-            print("Cycle " + start_count + " " + percent_done + "%")
+        if int(percent_done) > 0:
+            cycle_message = "Cycle " + start_count + " " + percent_done + "%"
         else:
-            print("Cycle " + start_count )
+            cycle_message = "Cycle " + start_count
 
-        print(" ")
+
+
+        if (old_washer_mode != washer_mode)  or (old_activity != activity) or (old_cycle_message != cycle_message):
+          print(washer_mode)
+          print(activity)
+          print(cycle_message)
+          print(datetime.today().strftime("%H:%M"))
+
+        old_washer_mode = washer_mode
+        old_activity = activity
+        old_cycle_message = cycle_message
 
         time.sleep(int(loop_seconds))
 
