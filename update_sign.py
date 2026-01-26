@@ -40,7 +40,7 @@ def update_sign_from_files(filedir, loop_seconds):
             next_time = datetime.today()
             interesting_ones['Dishcare.Dishwasher.Status.ProgramPhase'] = ''
         elif interesting_ones.get('BSH.Common.Status.OperationState') == 'DelayedStart':
-            activity = 'Waiting'
+            activity = 'Waiting - ' +  interesting_ones.get('BSH.Common.Root.SelectedProgram')
             next_time = datetime.today()
             interesting_ones['Dishcare.Dishwasher.Status.ProgramPhase'] = ''
 
