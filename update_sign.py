@@ -51,7 +51,7 @@ def update_sign_from_files(filedir, loop_seconds):
             next_time = datetime.today() + timedelta(
                 seconds=int(interesting_ones.get('BSH.Common.Option.StartInRelative')))
             washer_mode = "Start " + next_time.strftime("%H:%M")
-        elif int(interesting_ones.get('BSH.Common.Option.RemainingProgramTime')) > 0:
+        elif interesting_ones.get('BSH.Common.Status.OperationState') == 'Run':
             next_time = datetime.today() + timedelta(
                 seconds=int(interesting_ones.get('BSH.Common.Option.RemainingProgramTime')))
             washer_mode = "End  " + next_time.strftime("%H:%M")
