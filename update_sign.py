@@ -71,6 +71,16 @@ def update_sign_from_files(filedir, loop_seconds):
           print(cycle_message)
           print(datetime.today().strftime("%H:%M"))
 
+          f = open('boschmessages.lst', 'w', encoding="utf-8")
+
+          f.write(f'\n')
+          f.write(f'{washer_mode}\n')
+          f.write(f'{activity}\n')
+          f.write(f'{cycle_message}\n')
+          f.write(f'{datetime.today().strftime("%H:%M")}\n')
+          f.flush()
+          f.close()
+
         old_washer_mode = washer_mode
         old_activity = activity
         old_cycle_message = cycle_message
