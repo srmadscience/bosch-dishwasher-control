@@ -6,6 +6,7 @@ do
     [ "$?" == 42 ]
   then
     echo waiting for MQTT...
+    sleep 30
   else
     exit 1
   fi
