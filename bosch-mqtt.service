@@ -1,0 +1,14 @@
+[Unit]
+Description=Bosch MQTT Service
+After=network-online.target
+
+[Service]
+ExecStart=/bin/bash /home/pi/bosch-dishwasher-control/bosch-mqtt.sh
+WorkingDirectory=/home/pi/hcpy
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
