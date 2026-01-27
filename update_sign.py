@@ -4,6 +4,7 @@
 import sys
 import time
 from datetime import datetime, timedelta
+import os.path
 
 
 def update_sign_from_files(filedir, loop_seconds):
@@ -21,11 +22,15 @@ def update_sign_from_files(filedir, loop_seconds):
    old_cycle_message = ''
 
    while True:
+
         for key in interesting_ones:
-            with open(filedir + '/BSH_' + "_" + key + '.dat', 'r', encoding="utf-8") as file:
+            filename = filedir + '/BSH_' + "_" + key + '.dat'
+            if not os.path.isfile(filename):
+                sys.exit(42)
+
+            with open(filename, 'r', encoding="utf-8") as file:
                 file_contents = file.read().rstrip()
                 interesting_ones[key] = file_contents
-
 
         percent_done = interesting_ones.get('BSH.Common.Option.ProgramProgress')
         start_count = interesting_ones.get('BSH.Common.Status.Program.All.Count.Started')
