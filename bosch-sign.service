@@ -1,0 +1,14 @@
+[Unit]
+Description=Bosch Sign Service
+After=network-online.target
+
+[Service]
+ExecStart=/bin/bash /home/pi/bosch-dishwasher-control/bosch-sign.sh
+WorkingDirectory=/home/pi/bosch-dishwasher-control
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
