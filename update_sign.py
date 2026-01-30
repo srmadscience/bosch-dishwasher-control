@@ -81,7 +81,7 @@ def update_sign_from_files(filedir, loop_seconds):
 
 
           f.write(f'<!DOCTYPE html>\n')
-          f.write(f'<html><heed><title>Dishwasher Status</title</head>\n')
+          f.write(f'<html><head><title>Dishwasher Status</title</head>\n')
           f.write(f'<body>\n')
           f.write(f'<h1>\n')
           f.write(f'{washer_mode}\n')
