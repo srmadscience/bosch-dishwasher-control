@@ -76,13 +76,24 @@ def update_sign_from_files(filedir, loop_seconds):
           print(cycle_message)
           print(datetime.today().strftime("%H:%M"))
 
-          f = open('boschmessages.lst', 'w', encoding="utf-8")
+          f = open('boschmessages.html', 'w', encoding="utf-8")
 
-          f.write(f'\n')
+
+
+          f.write(f'<!DOCTYPE html>\n')
+          f.write(f'<html><heed><title>Dishwasher Status</title</head>\n')
+          f.write(f'<body>\n')
+          f.write(f'<h1>\n')
           f.write(f'{washer_mode}\n')
+          f.write(f'</h1><h1>\n')
           f.write(f'{activity}\n')
+          f.write(f'</h1><h1>\n')
           f.write(f'{cycle_message}\n')
+          f.write(f'</h1><h1>\n')
           f.write(f'{datetime.today().strftime("%H:%M")}\n')
+          f.write(f'</h1>\n')
+          f.write(f'</body></html>\n')
+
           f.flush()
           f.close()
 
