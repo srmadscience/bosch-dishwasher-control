@@ -33,16 +33,19 @@ try:
     font24 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
     font18 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 18)
 
+    interesting_ones = {'BSH.Common.Option.ProgramProgress': 0,
+                        'BSH.Common.Option.RemainingProgramTime': 0,
+                        'BSH.Common.Status.Program.All.Count.Started': 0,
+                        'Dishcare.Dishwasher.Status.ProgramPhase': "Unknown",
+                        'BSH.Common.Root.SelectedProgram': "Unknown",
+                        'BSH.Common.Status.OperationState': "Unknown",
+                        'BSH.Common.Option.StartInRelative': 0,
+                        'deviceID': 0}
+
     def update_sign_from_files(filedir, loop_seconds):
-       interesting_ones = {'BSH.Common.Option.ProgramProgress':0,
-                            'BSH.Common.Option.RemainingProgramTime':0,
-                            'BSH.Common.Status.Program.All.Count.Started':0,
-                            'Dishcare.Dishwasher.Status.ProgramPhase':"Unknown",
-                            'BSH.Common.Root.SelectedProgram':"Unknown",
-                            'BSH.Common.Status.OperationState':"Unknown",
-                            'BSH.Common.Option.StartInRelative':0,
-                            'deviceID':0}
-    
+
+       logging.info(f"Started for files in {filedir}, checking every {loop_seconds} seconds")
+
        # Used to tell if the message has changed...
        old_washer_mode = ''
        old_activity = ''
@@ -97,7 +100,9 @@ try:
 
             # Only do an update if something has actually changed...
             if (old_washer_mode != washer_mode)  or (old_activity != activity) or (old_cycle_message != cycle_message):
-    
+
+              logging.info(f"{washer_mode}, {activity}, {cycle_message}")
+
               # Display voodoo I don't understand...
               logging.info("1.Drawing on the Horizontal image...")
               Himage = Image.new('L', (epd.height, epd.width), 0xFF)  # 0xFF: clear the frame
@@ -136,7 +141,8 @@ try:
             old_washer_mode = washer_mode
             old_activity = activity
             old_cycle_message = cycle_message
-    
+
+            logging.info(f"Sleeping for {loop_seconds} seconds...")
             time.sleep(int(loop_seconds))
 
 
