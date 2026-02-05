@@ -95,5 +95,3 @@ Many of the same issues I see with enterprise application also arose on what is 
 * Messages need interpretation and correlcation to be useful
 * Getting all of the indivudual components to work is usually not that hard. Getting them to all work together in the same place at the same time on the other hand...
 
-Issue is that it's real value is in persuading your appliance to send MQTT messagges, and if you copied all the needed functionality you'd end up replicating the entire project. So my hacked version is asinine, but it *works*.
-
