@@ -61,6 +61,9 @@ I went to [PiHut](https://thepihut.com) and found a [3.7 inch ePaper display](ht
 
 The [documentation](https://www.waveshare.com/wiki/3.7inch_e-Paper_HAT_Manual#Working_With_Raspberry_Pi) is pretty good, and I was able to find the code I needed easily.
 
+![image](images/screen_in_use.png)
+
+
 ## Turning the MQTT data into something I can put on a sign...
 
 The MQTT messages arrive at regular intervals, but not all the data arrives in the same message. This is one reason I opted for writing each data item to its own file.
