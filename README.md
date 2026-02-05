@@ -59,7 +59,7 @@ I went to [PiHut](https://thepihut.com) and found a [3.7 inch ePaper display](ht
 
 ![image](images/3-7-e-ink-display-hat-for-raspberry-pi-480x280.png)
 
-https://www.waveshare.com/wiki/3.7inch_e-Paper_HAT_Manual#Working_With_Raspberry_Pi
+The [documentation](https://www.waveshare.com/wiki/3.7inch_e-Paper_HAT_Manual#Working_With_Raspberry_Pi) is pretty good, and I was able to find the code I needed easily.
 
 ## Turning the MQTT data into something I can put on a sign...
 
