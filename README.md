@@ -61,6 +61,8 @@ I went to [PiHut](https://thepihut.com) and found a [3.7 inch ePaper display](ht
 
 The [documentation](https://www.waveshare.com/wiki/3.7inch_e-Paper_HAT_Manual#Working_With_Raspberry_Pi) is pretty good, and I was able to find the code I needed easily.
 
+The end result of all this is entirely respectable:
+
 ![image](images/screen_in_use.png)
 
 
@@ -82,6 +84,16 @@ The messages are not intended to be dumped onto a display, especially one with l
 This causes problems when you take 'time remaining' and add it to 'now', as time remaining is only accurate to 60 seconds. Your end date ends up flipping back and forth between two values.
 
 ### In an ideal world I wouldn't need HCPY once I was running.
+
+Issue is that it's real value is in persuading your appliance to send MQTT messagges, and if you copied all the needed functionality you'd end up replicating the entire project. So my hacked version is asinine, but it *works*.
+
+### There is no such thing as a 'trivial' IOT application.
+
+Many of the same issues I see with enterprise application also arose on what is pretty much the smallest possible scale:
+
+* Messages arive *when they feel like it*, not *when you need them*
+* Messages need interpretation and correlcation to be useful
+* Getting all of the indivudual components to work is usually not that hard. Getting them to all work together in the same place at the same time on the other hand...
 
 Issue is that it's real value is in persuading your appliance to send MQTT messagges, and if you copied all the needed functionality you'd end up replicating the entire project. So my hacked version is asinine, but it *works*.
 
