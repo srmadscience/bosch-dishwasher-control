@@ -73,6 +73,9 @@ try:
             elif interesting_ones.get('BSH.Common.Status.OperationState') == 'DelayedStart':
                 activity = 'Waiting - ' +  interesting_ones.get('BSH.Common.Root.SelectedProgram')
                 interesting_ones['Dishcare.Dishwasher.Status.ProgramPhase'] = ''
+            elif interesting_ones.get('BSH.Common.Status.OperationState') == 'Finished':
+                activity = 'Lurking'
+                interesting_ones['Dishcare.Dishwasher.Status.ProgramPhase'] = ''
 
             # if we are planning on starting in the future...
             if int(interesting_ones.get('BSH.Common.Option.StartInRelative')) > 0:
