@@ -205,3 +205,10 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Waveshare e-Paper vendor checkout (its own git repo; bosch-sign runs from it)
+e-Paper/
+
+# Sign updater output
+boschmessages.html
+boschmessages.lst
