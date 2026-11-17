@@ -15,7 +15,63 @@ import traceback
 from datetime import datetime, timedelta
 import os.path
 
+import subprocess
+
 logging.basicConfig(level=logging.DEBUG)
+
+
+def read_hcpy_config(filedir):
+    """Read key = value pairs from hcpy's config.ini (no sections, quoted values)."""
+    config = {}
+    try:
+        with open(os.path.join(filedir, 'config.ini'), encoding="utf-8") as f:
+            for line in f:
+                line = line.split('#', 1)[0].strip()
+                if '=' not in line:
+                    continue
+                key, value = line.split('=', 1)
+                config[key.strip()] = value.strip().strip('"').strip("'")
+    except OSError as e:
+        logging.warning(f"Can't read hcpy config.ini: {e}")
+    return config
+
+
+def dishwasher_online(filedir, device='dishwasher'):
+    """True only if hc2mqtt says both the bridge and the device are online.
+
+    Reads the retained LWT topics that hc2mqtt publishes. Anything else - either
+    topic offline or missing, or the broker unreachable - counts as lost contact.
+    """
+    config = read_hcpy_config(filedir)
+    prefix = config.get('mqtt_prefix', 'homeconnect/')
+    bridge_topic = prefix + 'LWT'
+    device_topic = prefix + device + '/LWT'
+    cmd = ['mosquitto_sub', '-h', config.get('mqtt_host', 'localhost'),
+           '-p', config.get('mqtt_port', '1883'),
+           '-t', bridge_topic, '-t', device_topic, '-v', '-C', '2', '-W', '5']
+    if config.get('mqtt_username'):
+        cmd += ['-u', config['mqtt_username']]
+    if config.get('mqtt_password'):
+        cmd += ['-P', config['mqtt_password']]
+    try:
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=10)
+    except (OSError, subprocess.SubprocessError) as e:
+        logging.warning(f"Can't check MQTT LWT: {e}")
+        return False
+    states = dict(line.split(' ', 1) for line in result.stdout.splitlines() if ' ' in line)
+    logging.info(f"LWT states: {states}")
+    return states.get(bridge_topic) == 'online' and states.get(device_topic) == 'online'
+
+
+def lost_contact_message(filedir):
+    """'? HH:MM' using when hc2mqtt last received anything from the dishwasher."""
+    try:
+        last_heard = datetime.fromtimestamp(os.path.getmtime(os.path.join(filedir, 'message.dat')))
+    except OSError:
+        return '?'
+    if last_heard.date() == datetime.today().date():
+        return '? ' + last_heard.strftime("%H:%M")
+    return '? ' + last_heard.strftime("%a %H:%M")
 
 try:
     logging.info("epd3in7 Demo")
@@ -89,7 +145,14 @@ try:
                 washer_mode = "End  " + next_time.strftime("%H:%M")
             else:
                 washer_mode = interesting_ones.get('BSH.Common.Status.OperationState')
-    
+
+            # If hc2mqtt has lost the dishwasher, the .dat files are frozen and the
+            # times above are meaningless: show '?' and when we last heard from it.
+            if not dishwasher_online(filedir):
+                washer_mode = lost_contact_message(filedir)
+                activity = 'No contact'
+                percent_done = 0  # stale too; show just the cycle number
+
 
             # Avoid overly frequent changes to the percent done level....
             if percent_done > 90:
